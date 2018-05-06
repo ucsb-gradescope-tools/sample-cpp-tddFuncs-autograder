@@ -44,7 +44,7 @@ Any extra files (e.g. data files) that should be in the same directory as the st
 
 A reference solution which will be used to generate the expected outcome for all tests. Like student solutions, this solution will be run with all files from EXECUTION-FILES in the same directory.
 
-## MAKE-REFERENCE<i></i>.sh
+## `MAKE-REFERENCE.sh`
 
 A bash script that creates the expected test output using the reference solution. **Leave this unchanged when creating your own autograder.**
 
@@ -62,5 +62,19 @@ variable EXPECTED_FILES.
 
 For example, the `grade.sh` script in this file starts with:
 
-EXPECTED_FILES="countToN.cpp helloFile.cpp helloWorld.cpp helloStderr.cpp \
-                readFile.cpp readStdin.cpp "
+```
+EXPECTED_FILES="add.h add.cpp addCmdLine.cpp sumStdin.cpp"
+```
+
+You also may need to set the make targets for the `Makefile` and `Makefile.tdd` in the `BUILD_FILES` directory
+if they are something other than `all` and `tests`:
+
+
+```
+# Set the make target for the compilation phase
+MAKE_TARGET_BUILD="all"
+
+# Set the make target for the execution/testing phase (tddFuncs tests)
+# This should be a target in the Makefile.tdd makefile
+MAKE_TARGET_TESTS="tests"
+```
