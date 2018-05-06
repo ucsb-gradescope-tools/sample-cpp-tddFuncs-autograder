@@ -39,13 +39,13 @@ void assertEquals(T expected,
 }
 
 
-/*
-void assertEquals(int expected, 
-		  int actual, 
-		  std::string message);
-		  */
+#define ASSERT_EQUALS(expected,actual) assertEquals(expected,actual,#actual)
+#define ASSERT_TRUE(expression) assertTrue(expression,#expression)
+ 
+void assertTrue(bool expression, std::string message="");
 
 void START_GROUP(double points, const char* const name);
-
 void END_GROUP();
+
+
 #endif // TDDFUNCS_H

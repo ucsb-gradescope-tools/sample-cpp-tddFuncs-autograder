@@ -1,7 +1,7 @@
 CXX = g++ 
 # CXX = clang++
 
-CXXFLAGS = -Wall -Wno-uninitialized -std=c++11 $(EXTRA_CXXFLAGS)
+CXXFLAGS = -Wall -Wno-uninitialized -std=c++11
 
 BINARIES=addCmdLine biggerTest sumStdin sumTest
 
