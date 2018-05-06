@@ -3,7 +3,8 @@
 # This test verifies that the code compiles cleanly with -Wall.
 # The default timeout for tests is 2 seconds; we increase it here
 # because compilation can take a while.
-#@test{"stderr":1, "stdout:1", "timeout": 10}
+
+#@test{"stderr":1, "stdout":1, "timeout": 10}
 make -B -f Makefile.check
 
 #@test{"stdout": 5, "stderr": 5}

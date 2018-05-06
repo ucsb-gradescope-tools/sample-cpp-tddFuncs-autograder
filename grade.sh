@@ -1,16 +1,15 @@
 #!/usr/bin/env bash
 
-EXPECTED_FILES="countToN.cpp helloFile.cpp helloWorld.cpp helloStderr.cpp \
-                readFile.cpp readStdin.cpp "
+EXPECTED_FILES="add.h add.cpp addCmdLine.cpp sumStdin.cpp"
 
 # Set the make target for the compilation phase
 
-MAKE_TARGET_BUILD=""
+MAKE_TARGET_BUILD="all"
 
 # Set the make target for the execution/testing phase (tddFuncs tests)
 # This should be a target in the Makefile.tdd makefile
 
-MAKE_TARGET_TEST=""
+MAKE_TARGET_TESTS="tests"
 
 DIFF_TOOLS=gs-diff-based-testing
 
@@ -18,7 +17,7 @@ DIFF_TOOLS=gs-diff-based-testing
 
 echo $EXPECTED_FILES
 
-if [ -d $DIFF_TOOLS]; then
+if [ -d $DIFF_TOOLS ]; then
   cd $DIFF_TOOLS
   git pull origin master
   cd ..
@@ -64,7 +63,8 @@ done
 rm -f results.json
 
 make clean
-if [ -z "$MAKE_TARGET_BUILD"]; then
+
+if [ -z "$MAKE_TARGET_BUILD" ]; then
     echo "****** WARNING: MAKE_TARGET_BUILD is not set ******"
 else
    make $MAKE_TARGET_BUILD
@@ -82,7 +82,7 @@ done
 ../${DIFF_TOOLS}/grade-diffs.py ../diffs.sh 
 
 make clean
-if [ -z "$MAKE_TARGET_TESTS"]; then
+if [ -z "$MAKE_TARGET_TESTS" ]; then
     echo "****** WARNING: MAKE_TARGET_TESTS is not set ******"
 else
    make -f Makefile.tdd $MAKE_TARGET_TESTS
