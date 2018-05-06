@@ -1,0 +1,9 @@
+CXX = g++ 
+# CXX = clang++
+
+CXXFLAGS = -Wall -Wno-uninitialized -std=c++11 -fsyntax-only
+
+OBJS=add.o sumTest.o tddFuncs.o biggerTest.o sumStdin.o addCmdLine.o
+
+all: ${OBJS}
+

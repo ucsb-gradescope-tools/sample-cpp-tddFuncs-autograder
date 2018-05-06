@@ -1,12 +1,20 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 EXPECTED_FILES="countToN.cpp helloFile.cpp helloWorld.cpp helloStderr.cpp \
                 readFile.cpp readStdin.cpp "
-MAKE_TARGET=""
+
+# Set the make target for the compilation phase
+
+MAKE_TARGET_BUILD=""
+
+# Set the make target for the execution/testing phase (tddFuncs tests)
+# This should be a target in the Makefile.tdd makefile
+
+MAKE_TARGET_TEST=""
 
 DIFF_TOOLS=gs-diff-based-testing
 
-# YOU SHOULD NOT NEED TO EDIT BELOW THIS POINT.
+###### YOU TYPICALLY SHOULD NOT NEED TO EDIT BELOW THIS POINT ######
 
 echo $EXPECTED_FILES
 
@@ -43,7 +51,6 @@ mkdir -p MAKE-STUDENT-OUTPUT
 
 cd MAKE-STUDENT-OUTPUT
 
-copy_files_from_dir_if_it_exists ../EXECUTION-FILES
 copy_files_from_dir_if_it_exists ../BUILD-FILES
 
 for f in $EXPECTED_FILES; do
@@ -54,12 +61,32 @@ for f in $EXPECTED_FILES; do
     fi
 done
 
+rm -f results.json
 
 make clean
-make $MAKE_TARGET
+if [ -z "$MAKE_TARGET_BUILD"]; then
+    echo "****** WARNING: MAKE_TARGET_BUILD is not set ******"
+else
+   make $MAKE_TARGET_BUILD
+fi
 
-rm -f results.json
+copy_files_from_dir_if_it_exists ../EXECUTION-FILES
+for f in $EXPECTED_FILES; do
+    if [ -f $SUBMISSION_SOURCE/$f ]; then
+        cp -v $SUBMISSION_SOURCE/$f .
+    else
+        echo "WARNING: Expected file $f not found in $SUBMISSION_SOURCE"
+    fi
+done
+
 ../${DIFF_TOOLS}/grade-diffs.py ../diffs.sh 
+
+make clean
+if [ -z "$MAKE_TARGET_TESTS"]; then
+    echo "****** WARNING: MAKE_TARGET_TESTS is not set ******"
+else
+   make -f Makefile.tdd $MAKE_TARGET_TESTS
+fi
 
 if [ -d /autograder/results ]; then
     cp -v results.json /autograder/results/results.json

@@ -1,4 +1,4 @@
-#apt-get install -y python python-pip python-dev
+apt-get install -y python3 python3-pip python3-dev
 
 apt-get install -y g++
 apt-get install -y jsoncpp
