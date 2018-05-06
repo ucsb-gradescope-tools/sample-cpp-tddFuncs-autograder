@@ -1,66 +1,24 @@
-CXX = g++ 
-# CXX = clang++
+BINARIES=helloWorld helloStderr helloFile readFile readStdin countToN
 
-CXXFLAGS = -Wall -Wno-uninitialized -std=c++11 -I/usr/include/jsoncpp
+all:	${BINARIES}
 
-LDFLAGS = -ljsoncpp
+helloWorld: helloWorld.cpp
+	g++ -std=c++11 helloWorld.cpp -o helloWorld
 
-BINARIES=arrayToStringTest arrayBoundsDemo countEvensTest \
-	minOfArrayTest minOfArrayErrorTest countPrimesTest \
-	maxOfArrayTest maxOfArrayErrorTest sumOddsTest \
-	sumOfArrayTest utilityTest
+helloStderr: helloStderr.cpp
+	g++ -std=c++11 helloStderr.cpp -o helloStderr
 
+helloFile: helloFile.cpp
+	g++ -std=c++11 helloFile.cpp -o helloFile
 
-all: ${BINARIES}
+readFile: readFile.cpp
+	g++ -std=c++11 readFile.cpp -o readFile
 
-tests: ${BINARIES}
-	./arrayToStringTest
-	./countEvensTest
-	./countPrimesTest
-	./maxOfArrayTest
-	./minOfArrayTest
-	./sumOddsTest
-	./sumOfArrayTest
-	./utilityTest
+readStdin: readStdin.cpp
+	g++ -std=c++11 readStdin.cpp -o readStdin
 
-errorTests: minOfArrayErrorTest maxOfArrayErrorTest
-	- ./minOfArrayErrorTest
-	- ./maxOfArrayErrorTest
-
-
-arrayToStringTest: arrayToStringTest.o arrayToString.o tddFuncs.o utility.o
-	$(CXX) $(CXXFLAGS)  $^ -o $@ $(LDFLAGS)
-
-minOfArrayTest: minOfArrayTest.o arrayToString.o tddFuncs.o minOfArray.o utility.o
-	$(CXX) $(CXXFLAGS)  $^ -o $@ $(LDFLAGS)
-
-minOfArrayErrorTest: minOfArrayErrorTest.o arrayToString.o tddFuncs.o minOfArray.o utility.o
-	$(CXX) $(CXXFLAGS)  $^ -o $@ $(LDFLAGS)
-
-maxOfArrayTest: maxOfArrayTest.o arrayToString.o tddFuncs.o maxOfArray.o utility.o
-	$(CXX) $(CXXFLAGS)  $^ -o $@ $(LDFLAGS)
-
-maxOfArrayErrorTest: maxOfArrayErrorTest.o arrayToString.o tddFuncs.o maxOfArray.o utility.o
-	$(CXX) $(CXXFLAGS)  $^ -o $@ $(LDFLAGS)
-
-arrayBoundsDemo: arrayBoundsDemo.o arrayToString.o utility.o
-	$(CXX) $(CXXFLAGS)  $^ -o $@ $(LDFLAGS)
-
-countEvensTest: countEvensTest.o countEvens.o tddFuncs.o utility.o
-	$(CXX) $(CXXFLAGS)  $^ -o $@ $(LDFLAGS)
-
-sumOfArrayTest: sumOfArrayTest.o sumOfArray.o tddFuncs.o utility.o
-	$(CXX) $(CXXFLAGS)  $^ -o $@ $(LDFLAGS)
-
-
-sumOddsTest: sumOddsTest.o sumOdds.o tddFuncs.o utility.o
-	$(CXX) $(CXXFLAGS)  $^ -o $@ $(LDFLAGS)
-
-countPrimesTest: countPrimesTest.o countPrimes.o tddFuncs.o utility.o
-	$(CXX) $(CXXFLAGS)  $^ -o $@ $(LDFLAGS)
-
-utilityTest: utilityTest.o tddFuncs.o utility.o
-	$(CXX) $(CXXFLAGS)  $^ -o $@ $(LDFLAGS)
+countToN: countToN.cpp
+	g++ -std=c++11 countToN.cpp -o countToN
 
 clean:
-	/bin/rm -f ${BINARIES} *.o
+	/bin/rm -rf *.o ${BINARIES}
