@@ -1,4 +1,10 @@
-A sample C++ autograder repo to show how diff-based autograding works. The corresponding assignment can be found at https://github.com/ucsb-gradescope-tools/sample-cpp-assignment.
+# sample-cpp-tddFuncs-autograder
+
+This sample autograder builds on top of [sample-cpp-diff-autograder](https://github.com/ucsb-gradescope-tools/sample-cpp-diff-autograder) by adding an extra layer of functionalilty: the ability to directly record the results of tests from the tddFuncs.h/tddFuncs.cpp unit testing framework into the Gradescope JSON.
+
+The autograder can still incorporate diff-based tests before or after the unit tests are executed.  The key point is that each stage in the grading pipeline adds on to the results.json of the previous stage.
+
+The corresponding assignment can be found at github.com/ucsb-gradescope-tools/sample-cpp-tddFuncs.assignment.
 
 # Platform specific notes
 
@@ -18,13 +24,20 @@ that case that your apt-get.sh includes an install of the appropriate
 
 ## BUILD-FILES
 
-Any extra files (e.g. a Makefile) that should be in the same directory as the student submission while the submission is being built.    In this repo, the EXECUTION-FILES directory has the Makefile from the [assignment repo](https://github.com/ucsb-gradescope-tools/sample-cpp-assignment).
+Any extra files (e.g. a Makefile) that should be in the same directory as the student submission while the submission is being built.    In this repo, the BUILD-FILES directory has three Makefiles:
+
+1.  `Makefile`, the Makefile from the
+   [assignment repo](https://github.com/ucsb-gradescope-tools/sample-cpp-tddFuncs-assignment).
+2.  `Makefile.check` A separate Makefile for checking syntax that is referenced in `diffs.sh`; this allows the instructor
+   to assign a certain number of points for a "clean compile" with no warnings or errors.
+3. `Makefile.tdd` This is a makefile that builds versions of the executable that link with the version of `tddFuncs.cpp`
+   that generates the JSON for Gradescope.
 
 When converting an assignment from submit.cs, any files that were "build files" on submit.cs go into this directory, along with the Makefile for the assignment.
 
 ## EXECUTION-FILES
 
-Any extra files (e.g. data files) that should be in the same directory as the student submission while the submission is being executed. In this repo, the EXECUTION-FILES directory has `input.txt` file from the provided-files directory in the [assignment repo](https://github.com/ucsb-gradescope-tools/sample-cpp-assignment).
+Any extra files (e.g. data files) that should be in the same directory as the student submission while the submission is being executed. In this repo, the EXECUTION-FILES directory has `input.txt` file from the provided-files directory in the [assignment repo](https://github.com/ucsb-gradescope-tools/sample-cpp-tddFuncs-assignment).
 
 
 ## REFERENCE-SOLUTION
@@ -35,18 +48,19 @@ A reference solution which will be used to generate the expected outcome for all
 
 A bash script that creates the expected test output using the reference solution. **Leave this unchanged when creating your own autograder.**
 
-## apt-get<i></i>.sh
+## `apt-get.sh`
 A bash script for installing any necessary dependencies for the assignment, e.g. g++.
 
-## diffs<i></i>.sh
+## `diffs.sh`
 
 A bash script describing the tests to be run. See [this page](https://github.com/ucsb-gradescope-tools/gs-diff-based-testing/blob/master/README.md) for further documentation.
 
-## grade<i></i>.sh
+## `grade.sh`
 
-A bash script for generating the results of the student submission. At the top of this file, you must specify what student files should be copied from `/autograder/submission` for testing. For example, the `grade.sh` in this repo begins with:
+A bash script for generating the results of the student submission. At the top of this file, you must specify what student files should be copied from `/autograder/submission` for testing by listing them in the definition of the environment
+variable EXPECTED_FILES.
 
-> cp /autograder/submission/helloWorld.cpp .
-> cp /autograder/submission/helloStderr.cpp .
+For example, the `grade.sh` script in this file starts with:
 
-etc.
+EXPECTED_FILES="countToN.cpp helloFile.cpp helloWorld.cpp helloStderr.cpp \
+                readFile.cpp readStdin.cpp "
