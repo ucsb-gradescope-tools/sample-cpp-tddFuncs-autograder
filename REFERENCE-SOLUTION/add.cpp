@@ -1,4 +1,4 @@
-// add.h
+// add.cpp
 
 int addEm(int a, int b) {
   return a + b;
